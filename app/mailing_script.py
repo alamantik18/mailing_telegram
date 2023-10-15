@@ -37,6 +37,8 @@ async def main():
     with open('message.txt', 'r') as file:
         message = file.read()
 
+    messages_counter = 0
+
     async for dialog in client.iter_dialogs():
         if dialog.is_group:
             try:
@@ -44,9 +46,12 @@ async def main():
                 print(f'Сообщение отправлено в {dialog.name}')
                 i += 1
                 bar.update(i)
+                messages_counter += 1
+                if messages_counter % 10 == 0:
+                    time.sleep(360)
             except Exception:
                 print(f'Не удалось отправить сообщение в {dialog.name}')
-            time.sleep(randint(0, 5))
+            time.sleep(randint(3, 15))
     bar.finish()
     print('Рассылка закончилась')
 
